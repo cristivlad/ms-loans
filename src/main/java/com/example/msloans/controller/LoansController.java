@@ -28,7 +28,7 @@ public class LoansController {
 
     @PostMapping("/myLoans")
     public List<Loans> getLoansDetails(@RequestBody Customer customer) {
-        return loansRepository.findByCustomerIdOrderByStartDtDesc(customer.getCustomerId());
+        return loansRepository.findByCustomerIdOrderByCreateDt(customer.getCustomerId());
     }
 
     @GetMapping("/loans/properties")
