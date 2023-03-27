@@ -8,6 +8,8 @@ import com.example.msloans.repository.LoansRepository;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectWriter;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -15,6 +17,7 @@ import java.util.List;
 @RestController
 public class LoansController {
 
+    private static final Logger logger = LoggerFactory.getLogger(LoansController.class);
     private final LoansRepository loansRepository;
     private final LoansServiceConfig loansConfig;
 
@@ -25,7 +28,10 @@ public class LoansController {
 
     @PostMapping("/myLoans")
     public List<Loans> getLoansDetails(@RequestHeader("tmx-correlation-id") String correlationId, @RequestBody Customer customer) {
-        return loansRepository.findByCustomerIdOrderByCreateDt(customer.getCustomerId());
+        logger.info("getLoansDetails started");
+        List<Loans> byCustomerIdOrderByCreateDt = loansRepository.findByCustomerIdOrderByCreateDt(customer.getCustomerId());
+        logger.info("getLoansDetails ended");
+        return byCustomerIdOrderByCreateDt;
     }
 
     @GetMapping("/loans/properties")
